@@ -1,5 +1,5 @@
 $(function(){
-    // test options
+    // test options 1312680000;1327680000   1372680000;1379678400
     var points = [[0, 100],[600000,319],[1200000,346],[1800000,356],[2400000,347],[3000000,327], [4000000,100]];
     updateChart(points);
 
@@ -105,16 +105,18 @@ var NgenixChart = function(){
      * Output dates also located here.
      */
     var renderData = function (){
-        var lineWidth = 30;
-        var padding = lineWidth + (lineWidth /2);
-        var xPos = margin.left + (lineWidth/2) + 10; // 10px margin from y coordinate
+        //change width of column
+        var padding = xMax / (points.length*3);
+        var lineWidth = padding*2;
+
+        //var padding = lineWidth;
+        var xPos = margin.left + (lineWidth/2); // 10px margin from y coordinate
 
         for(var i = 0; i < points.length; i++){
             var count = points[i][1];
-            var ratio = yMax / maxPoint;
+            var ratio = (yMax - margin.top) / maxPoint;
             var barStartY = yMax - 1;
-            var barEndY = count > 0 ? yMax - (count * ratio) + margin.top : barStartY;
-
+            var barEndY = count > 0 ? yMax - (count * ratio) : barStartY;
             // draw all lines by one common function
             drawLine(xPos, barStartY, xPos, barEndY, 'FF8000', lineWidth);
 
@@ -128,7 +130,7 @@ var NgenixChart = function(){
             ctx.fillText(txt, 0, 0);
             ctx.restore();
 
-            xPos += padding;
+            xPos += padding + lineWidth;
         }
     }
 
